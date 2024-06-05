@@ -17,12 +17,9 @@ const gl = {
   <TresCanvas window-size v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" :fov="45" />
     <OrbitControls />
-    <TresMesh cast-shadow>
-      <TresTorusGeometry :args="[1, 0.5, 16, 32]" />
-      <MeshPhongMaterial color="orange" />
-    </TresMesh>
+    <Unit :position="[0, 0, 0]" />
     <TresMesh
-      :position="[0, -2, 0]"
+      :position="[0, -0.5, 0]"
       :rotation="[-1.5, 0, 0]"
       :scale="[18, 18, 18]"
       receive-shadow
@@ -31,14 +28,14 @@ const gl = {
       <TresShadowMaterial />
     </TresMesh>
     <TresDirectionalLight
-      :position="[0, 2, 4]"
+      :position="[0, 5, 4]"
       :intensity="1.2"
       cast-shadow
-      :shadow-mapSize="1024"
-      :shadow-camera-left="-200"
-      :shadow-camera-right="200"
-      :shadow-camera-top="200"
-      :shadow-camera-bottom="-200"
+      :shadow-mapSize="2024"
+      :shadow-camera-left="-70"
+      :shadow-camera-right="70"
+      :shadow-camera-top="70"
+      :shadow-camera-bottom="-70"
       :shadow-camera-near="0.5"
       :shadow-camera-far="1000"
     />
