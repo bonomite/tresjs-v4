@@ -1,5 +1,11 @@
 <script lang="ts" setup>
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, PCFSoftShadowMap } from "three"
+import {
+  BasicShadowMap,
+  SRGBColorSpace,
+  NoToneMapping,
+  PCFSoftShadowMap,
+  Vector3,
+} from "three"
 import * as THREE from "three"
 import { TresCanvas } from "@tresjs/core"
 
@@ -17,11 +23,11 @@ const gl = {
   <TresCanvas window-size v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" :fov="45" />
     <OrbitControls />
-    <Unit :position="[0, 0, 0]" />
+    <Unit />
     <TresMesh
       :position="[0, -0.5, 0]"
       :rotation="[-1.5, 0, 0]"
-      :scale="[18, 18, 18]"
+      :scale="[3, 3, 1]"
       receive-shadow
     >
       <TresPlaneGeometry />

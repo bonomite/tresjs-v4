@@ -1,11 +1,17 @@
 <script lang="ts" setup>
-import { Vector3 } from "three"
-
+import {
+  BasicShadowMap,
+  SRGBColorSpace,
+  NoToneMapping,
+  PCFSoftShadowMap,
+  Vector3,
+} from "three"
+import * as THREE from "three"
+import { TresCanvas } from "@tresjs/core"
 var props = defineProps({
   position: {
-    type: Vector3,
-    required: true,
-    default: [0, 0, 0],
+    type: Object as () => Vector3,
+    default: () => new Vector3(0, 0, 0),
   },
 })
 </script>
