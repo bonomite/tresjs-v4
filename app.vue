@@ -34,7 +34,13 @@ const gl = {
       :position="[0, 2, 4]"
       :intensity="1.2"
       cast-shadow
-      :shadow-mapSize="48"
+      :shadow-mapSize="1024"
+      :shadow-camera-left="-200"
+      :shadow-camera-right="200"
+      :shadow-camera-top="200"
+      :shadow-camera-bottom="-200"
+      :shadow-camera-near="0.5"
+      :shadow-camera-far="1000"
     />
     <TresAmbientLight :intensity="0.5" />
   </TresCanvas>
