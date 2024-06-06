@@ -13,12 +13,16 @@ var props = defineProps({
     type: Object as () => Vector3,
     default: () => new Vector3(0, 0, 0),
   },
+  size: {
+    type: Object as () => Vector3,
+    default: () => new Vector3(1, 1, 1),
+  },
 })
 </script>
 
 <template>
   <TresMesh cast-shadow :position="props.position">
-    <TresBoxGeometry :args="[1.5, 0.75, 1]" />
+    <TresBoxGeometry :args="props.size" />
     <MeshPhongMaterial color="orange" />
   </TresMesh>
 </template>
