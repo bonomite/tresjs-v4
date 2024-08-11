@@ -31,20 +31,38 @@ const structureSize = computed(() => {
 })
 
 const calcUnitsPosition = (index) => {
-  // Determine the number of columns and rows based on the total number of units
   let columns = Math.ceil(Math.sqrt(numOfUnits.value / maxObjectsPerColumn))
   let rows = Math.ceil(numOfUnits.value / columns)
 
   // Ensure rows are a multiple of maxObjectsPerColumn
   rows = Math.ceil(rows / maxObjectsPerColumn) * maxObjectsPerColumn
 
-  // Calculate position based on index
-  let x = (index % columns) * (unitSize[0] + horizontalPadding)
+  // Calculate grid dimensions
+  let gridWidth = columns * (unitSize[0] + horizontalPadding) - horizontalPadding
+  let gridHeight = rows * (unitSize[1] + verticalPadding) - verticalPadding
+  let gridDepth =
+    Math.ceil(numOfUnits.value / (columns * maxObjectsPerColumn)) *
+      (unitSize[2] + horizontalPadding) -
+    horizontalPadding
+
+  // Calculate center of the grid
+  let centerX = gridWidth / 2
+  let centerY = gridHeight / 2
+  let centerZ = gridDepth / 2
+
+  // Calculate position based on index, relative to the center
+  let x =
+    (index % columns) * (unitSize[0] + horizontalPadding) - horizontalPadding - centerX
   let y =
-    (Math.floor(index / columns) % maxObjectsPerColumn) * (unitSize[1] + verticalPadding)
+    (Math.floor(index / columns) % maxObjectsPerColumn) *
+      (unitSize[1] + verticalPadding) -
+    verticalPadding -
+    centerY
   let z =
     Math.floor(index / (columns * maxObjectsPerColumn)) *
-    (unitSize[2] + horizontalPadding)
+      (unitSize[2] + horizontalPadding) -
+    horizontalPadding -
+    centerZ
 
   return [x, y, z]
 }
