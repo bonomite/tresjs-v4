@@ -26,8 +26,13 @@ let horizontalPadding = 0.1 // Example value, adjust as needed
 const numOfUnits = ref(10) // Total number of units
 const unitSize = [1, 0.2, 1]
 const structureSize = computed(() => {
-  const size = numOfUnits.value / 2
-  return [size, size / 4, size]
+  let columns = Math.ceil(Math.sqrt(numOfUnits.value / maxObjectsPerColumn))
+  let rows = Math.ceil(numOfUnits.value / columns)
+  const gridWidth = columns * (unitSize[0] + horizontalPadding) - horizontalPadding
+  const gridHeight = rows * (unitSize[1] + verticalPadding) - verticalPadding
+  const size = Math.max(gridWidth, gridHeight) / 2
+  const scaleFactor = 2.2 // Adjust the scale factor as needed
+  return [size * scaleFactor, (size / 4) * scaleFactor, size * scaleFactor]
 })
 
 const calcUnitsPosition = (index) => {
