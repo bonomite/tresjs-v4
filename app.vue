@@ -20,11 +20,12 @@ const gl = {
 }
 
 // Variables for customization
-let maxObjectsPerColumn = 3
+let maxObjectsPerColumn = 1
 let verticalPadding = 0.1 // Example value, adjust as needed
 let horizontalPadding = 0.1 // Example value, adjust as needed
 const numOfUnits = ref(1) // Total number of units
 const unitSize = [1, 0.2, 1]
+const structureSize = [2, 2, 2]
 
 const calcUnitsPosition = (index) => {
   // Determine the number of columns and rows based on the total number of units
@@ -58,7 +59,7 @@ const structures = [
     obj: "greenhouse.obj",
   },
 ]
-const structureSelected = ref("")
+const structureSelected = ref(structures[0].name)
 </script>
 
 <template>
@@ -93,6 +94,7 @@ const structureSelected = ref("")
           :position="calcUnitsPosition(index)"
           :size="unitSize"
         />
+        <Unit :key="`unit-house`" :size="structureSize" color="#ffffff" :opacity="0.1" />
         <TresMesh
           :position="[0, -0.19, 0]"
           :rotation="[-1.57, 0, 0]"
