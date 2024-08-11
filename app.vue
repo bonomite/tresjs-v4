@@ -23,9 +23,12 @@ const gl = {
 let maxObjectsPerColumn = 1
 let verticalPadding = 0.1 // Example value, adjust as needed
 let horizontalPadding = 0.1 // Example value, adjust as needed
-const numOfUnits = ref(1) // Total number of units
+const numOfUnits = ref(10) // Total number of units
 const unitSize = [1, 0.2, 1]
-const structureSize = [2, 2, 2]
+const structureSize = computed(() => {
+  const size = numOfUnits.value / 2
+  return [size, size / 4, size]
+})
 
 const calcUnitsPosition = (index) => {
   // Determine the number of columns and rows based on the total number of units
@@ -101,8 +104,8 @@ const structureSelected = ref(structures[0].name)
           :scale="[20, 20, 1]"
           receive-shadow
         >
-          <TresPlaneGeometry />
-          <TresShadowMaterial opacity="0.15" />
+          <!-- <TresPlaneGeometry /> -->
+          <!-- <TresShadowMaterial opacity="0.15" /> -->
         </TresMesh>
         <TresDirectionalLight
           :position="[-4, 5, 4]"
