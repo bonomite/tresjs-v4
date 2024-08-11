@@ -23,8 +23,8 @@ const gl = {
 let maxObjectsPerColumn = 3
 let verticalPadding = 0.1 // Example value, adjust as needed
 let horizontalPadding = 0.1 // Example value, adjust as needed
-const numOfUnits = ref(29) // Total number of units
-const unitSize = [1.5, 0.75, 1]
+const numOfUnits = ref(1) // Total number of units
+const unitSize = [1, 0.2, 1]
 
 const calcUnitsPosition = (index) => {
   // Determine the number of columns and rows based on the total number of units
@@ -85,7 +85,7 @@ const structureSelected = ref("")
     />
     <div>
       <TresCanvas window-size v-bind="gl" style="top: 280px">
-        <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" :fov="45" />
+        <TresPerspectiveCamera :position="[15, 15, 15]" :look-at="[0, 0, 0]" :fov="45" />
         <OrbitControls />
         <Unit
           v-for="(unit, index) in numOfUnits"
@@ -94,13 +94,13 @@ const structureSelected = ref("")
           :size="unitSize"
         />
         <TresMesh
-          :position="[0, -0.39, 0]"
+          :position="[0, -0.19, 0]"
           :rotation="[-1.57, 0, 0]"
           :scale="[20, 20, 1]"
           receive-shadow
         >
           <TresPlaneGeometry />
-          <TresShadowMaterial opacity="0.35" />
+          <TresShadowMaterial opacity="0.15" />
         </TresMesh>
         <TresDirectionalLight
           :position="[-4, 5, 4]"
