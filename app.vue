@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import RadioButton from "primevue/radiobutton"
 import {
   BasicShadowMap,
   SRGBColorSpace,
@@ -43,51 +44,80 @@ const calcUnitsPosition = (index) => {
 
   return [x, y, z]
 }
+const structures = [
+  {
+    name: "Indoor",
+    obj: "indoor.obj",
+  },
+  {
+    name: "Outdoor",
+    obj: "outdoor.obj",
+  },
+  {
+    name: "Greenhouse",
+    obj: "greenhouse.obj",
+  },
+]
+const structureSelected = ref("")
 </script>
 
 <template>
-  <h2>{{ numOfUnits }} Units</h2>
-  <input
-    type="number"
-    min="1"
-    max="200"
-    v-model="numOfUnits"
-    style="width: 100%; z-index: 23023"
-  />
   <div>
-    <TresCanvas window-size v-bind="gl" style="top: 80px">
-      <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" :fov="45" />
-      <OrbitControls />
-      <Unit
-        v-for="(unit, index) in numOfUnits"
-        :key="`unit-${index}`"
-        :position="calcUnitsPosition(index)"
-        :size="unitSize"
-      />
-      <TresMesh
-        :position="[0, -0.39, 0]"
-        :rotation="[-1.57, 0, 0]"
-        :scale="[20, 20, 1]"
-        receive-shadow
-      >
-        <TresPlaneGeometry />
-        <TresShadowMaterial opacity="0.35" />
-      </TresMesh>
-      <TresDirectionalLight
-        :position="[-4, 5, 4]"
-        :intensity="1.2"
-        cast-shadow
-        :shadow-mapSize="2024"
-        :shadow-camera-left="-70"
-        :shadow-camera-right="70"
-        :shadow-camera-top="70"
-        :shadow-camera-bottom="-70"
-        :shadow-camera-near="0.5"
-        :shadow-camera-far="1000"
-        color="#ffffff"
-      />
-      <TresAmbientLight :intensity="0.5" />
-    </TresCanvas>
+    <Button label="Check" icon="pi pi-check" />
+    <div class="flex flex-wrap gap-4">
+      <div class="flex items-center" v-for="structure in structures">
+        <RadioButton
+          v-model="structureSelected"
+          inputId="structure1"
+          :name="structure.name"
+          :value="structure.name"
+        />
+        <label for="structure1" class="ml-2">{{ structure.name }}</label>
+      </div>
+    </div>
+    <h2>{{ numOfUnits }} Units</h2>
+    <input
+      type="number"
+      min="1"
+      max="200"
+      v-model="numOfUnits"
+      style="width: 100%; z-index: 23023"
+    />
+    <div>
+      <TresCanvas window-size v-bind="gl" style="top: 280px">
+        <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" :fov="45" />
+        <OrbitControls />
+        <Unit
+          v-for="(unit, index) in numOfUnits"
+          :key="`unit-${index}`"
+          :position="calcUnitsPosition(index)"
+          :size="unitSize"
+        />
+        <TresMesh
+          :position="[0, -0.39, 0]"
+          :rotation="[-1.57, 0, 0]"
+          :scale="[20, 20, 1]"
+          receive-shadow
+        >
+          <TresPlaneGeometry />
+          <TresShadowMaterial opacity="0.35" />
+        </TresMesh>
+        <TresDirectionalLight
+          :position="[-4, 5, 4]"
+          :intensity="1.2"
+          cast-shadow
+          :shadow-mapSize="2024"
+          :shadow-camera-left="-70"
+          :shadow-camera-right="70"
+          :shadow-camera-top="70"
+          :shadow-camera-bottom="-70"
+          :shadow-camera-near="0.5"
+          :shadow-camera-far="1000"
+          color="#ffffff"
+        />
+        <TresAmbientLight :intensity="0.5" />
+      </TresCanvas>
+    </div>
   </div>
 </template>
 <style>
