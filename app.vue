@@ -10,7 +10,7 @@ import {
 import * as THREE from "three"
 import { TresCanvas, useLoader } from "@tresjs/core"
 import { ref, computed } from "vue"
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader"
+import { useGLTF } from "@tresjs/cientos"
 const gl = {
   shadows: true,
   alpha: true,
@@ -20,13 +20,33 @@ const gl = {
   //toneMapping: NoToneMapping,
 }
 
-//const { greenhouse } = await useLoader(GLTFLoader, "~/gtlf/greenhouse.glb")
+const structures = [
+  {
+    name: "Indoor",
+    obj: "indoor.obj",
+  },
+  {
+    name: "Outdoor",
+    obj: "outdoor.obj",
+  },
+  {
+    name: "Greenhouse",
+    filename: "greenhouse.gtlf",
+    obj: "greenhouse.obj",
+  },
+]
+const structureSelected = ref(structures[0].name)
+
+//const { scene: greenhouse } = await useGLTF("~/gtlf/greenhouse.gltf")
+const { scene: greenhouse } = await useGLTF(
+  "https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/ugly-naked-bunny/ugly-naked-bunny-animated.gltf"
+)
 
 // Variables for customization
-const numOfUnits = ref(9) // Total number of units
 let maxObjectsPerColumn = 1
 let verticalPadding = 0.1 // Example value, adjust as needed
 let horizontalPadding = 0.1 // Example value, adjust as needed
+const numOfUnits = ref(9) // Total number of units
 const unitSize = [1, 0.2, 1]
 const structureSize = computed(() => {
   let columns = Math.ceil(Math.sqrt(numOfUnits.value / maxObjectsPerColumn))
@@ -74,21 +94,6 @@ const calcUnitsPosition = (index) => {
 
   return [x, y, z]
 }
-const structures = [
-  {
-    name: "Indoor",
-    obj: "indoor.obj",
-  },
-  {
-    name: "Outdoor",
-    obj: "outdoor.obj",
-  },
-  {
-    name: "Greenhouse",
-    obj: "greenhouse.obj",
-  },
-]
-const structureSelected = ref(structures[0].name)
 </script>
 
 <template>
@@ -132,7 +137,7 @@ const structureSelected = ref(structures[0].name)
           :opacity="0.1"
           :position="[-0.6, -0.2, -0.6]"
         />
-        <!-- <primitive :object="greenhosue" /> -->
+        <primitive :object="greenhouse" />
         <!-- <TresMesh
           :position="[0, -0.19, 0]"
           :rotation="[-1.57, 0, 0]"
