@@ -37,7 +37,8 @@ const structures = [
 ]
 const structureSelected = ref(structures[0].name)
 
-//const { scene: greenhouse } = await useGLTF("~/gtlf/greenhouse.gltf")
+//const { scene: greenhouse } = await useGLTF("~/gltf/greenhouse.gltf")
+//const { scene: greenhouse } = await useGLTF("~/models/bunny.gltf")
 const { scene: greenhouse } = await useGLTF(
   "https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/ugly-naked-bunny/ugly-naked-bunny-animated.gltf"
 )
@@ -137,7 +138,9 @@ const calcUnitsPosition = (index) => {
           :opacity="0.1"
           :position="[-0.6, -0.2, -0.6]"
         />
-        <primitive :object="greenhouse" />
+        <Suspense>
+          <primitive :object="greenhouse" />
+        </Suspense>
         <!-- <TresMesh
           :position="[0, -0.19, 0]"
           :rotation="[-1.57, 0, 0]"
