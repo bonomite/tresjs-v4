@@ -37,11 +37,7 @@ const structures = [
 ]
 const structureSelected = ref(structures[0].name)
 
-//const { scene: greenhouse } = await useGLTF("~/gltf/greenhouse.gltf")
-//const { scene: greenhouse } = await useGLTF("~/models/bunny.gltf")
-const { scene: greenhouse } = await useGLTF(
-  "https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/ugly-naked-bunny/ugly-naked-bunny-animated.gltf"
-)
+const { scene: greenhouse } = await useGLTF("/models/greenhouse.gltf")
 
 // Variables for customization
 let maxObjectsPerColumn = 1
