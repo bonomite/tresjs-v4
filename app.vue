@@ -37,7 +37,7 @@ const structures = [
 ]
 const structureSelected = ref(structures[0].name)
 
-const { scene: greenhouse } = await useGLTF("/models/greenhouse.gltf")
+const { scene: greenhouse } = await useGLTF("/models/greenhouse2.gltf")
 
 // Variables for customization
 let maxObjectsPerColumn = 1
@@ -110,7 +110,7 @@ const calcUnitsPosition = (index) => {
     <h2>{{ numOfUnits }} Units</h2>
     <input
       type="number"
-      min="9"
+      min="1"
       max="1000"
       v-model="numOfUnits"
       style="width: 100%; z-index: 23023"
