@@ -8,8 +8,9 @@ import {
   Vector3,
 } from "three"
 import * as THREE from "three"
-import { TresCanvas } from "@tresjs/core"
+import { TresCanvas, useLoader } from "@tresjs/core"
 import { ref, computed } from "vue"
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader"
 const gl = {
   shadows: true,
   alpha: true,
@@ -19,11 +20,13 @@ const gl = {
   //toneMapping: NoToneMapping,
 }
 
+//const { greenhouse } = await useLoader(GLTFLoader, "~/gtlf/greenhouse.glb")
+
 // Variables for customization
+const numOfUnits = ref(9) // Total number of units
 let maxObjectsPerColumn = 1
 let verticalPadding = 0.1 // Example value, adjust as needed
 let horizontalPadding = 0.1 // Example value, adjust as needed
-const numOfUnits = ref(1) // Total number of units
 const unitSize = [1, 0.2, 1]
 const structureSize = computed(() => {
   let columns = Math.ceil(Math.sqrt(numOfUnits.value / maxObjectsPerColumn))
@@ -105,7 +108,7 @@ const structureSelected = ref(structures[0].name)
     <h2>{{ numOfUnits }} Units</h2>
     <input
       type="number"
-      min="1"
+      min="9"
       max="1000"
       v-model="numOfUnits"
       style="width: 100%; z-index: 23023"
@@ -129,6 +132,7 @@ const structureSelected = ref(structures[0].name)
           :opacity="0.1"
           :position="[-0.6, -0.2, -0.6]"
         />
+        <!-- <primitive :object="greenhosue" /> -->
         <!-- <TresMesh
           :position="[0, -0.19, 0]"
           :rotation="[-1.57, 0, 0]"

@@ -31,7 +31,7 @@ var props = defineProps({
 <template>
   <TresMesh cast-shadow :position="props.position">
     <TresBoxGeometry :args="props.size" />
-    <MeshPhysicalMaterial
+    <TresMeshPhysicalMaterial
       :color="props.color"
       :opacity="props.opacity"
       :depthTest="false"
