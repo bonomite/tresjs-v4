@@ -106,7 +106,7 @@ const structureSelected = ref(structures[0].name)
     <input
       type="number"
       min="1"
-      max="200"
+      max="1000"
       v-model="numOfUnits"
       style="width: 100%; z-index: 23023"
     />
@@ -118,9 +118,11 @@ const structureSelected = ref(structures[0].name)
           v-for="(unit, index) in numOfUnits"
           :key="`unit-${index}`"
           :position="calcUnitsPosition(index)"
+          LineBasicMaterial
           :size="unitSize"
         />
-        <Unit
+        <Room
+          :type="structureSelected"
           :key="`unit-house`"
           :size="structureSize"
           color="#ffffff"

@@ -31,12 +31,13 @@ var props = defineProps({
 <template>
   <TresMesh cast-shadow :position="props.position">
     <TresBoxGeometry :args="props.size" />
-    <MeshPhongMaterial
+    <MeshPhysicalMaterial
       :color="props.color"
       :opacity="props.opacity"
-      transparent
       :depthTest="false"
       :depthWrite="false"
+      :reflectivity="0"
+      :transparent="true"
       :fog="false"
       reflectivity="0"
     />

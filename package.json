@@ -11,8 +11,9 @@
   },
   "dependencies": {
     "@primevue/themes": "^4.0.4",
-    "@tresjs/cientos": "^3.9.0",
-    "@tresjs/nuxt": "^2.1.2",
+    "@tresjs/cientos": "^4.0.0",
+    "@tresjs/core": "^4.2.7",
+    "@tresjs/nuxt": "^3.0.3",
     "@tresjs/post-processing": "^0.7.1",
     "nuxt": "^3.11.2",
     "primevue": "^4.0.4",
