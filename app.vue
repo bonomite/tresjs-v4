@@ -23,7 +23,7 @@ const gl = {
 const structures = [
   {
     name: "Indoor",
-    filename: "greenhouse.gltf",
+    filename: "greenhouse2.gltf",
     obj: "indoor.obj",
   },
   {
@@ -38,18 +38,26 @@ const structures = [
   },
 ]
 const structureSelected = ref(structures[0].name)
-const gltf = ref(null)
+const gltf = shallowRef(null)
 
 const getStructure = computed(() => {
   return structures.find((structure) => structure.name === structureSelected.value)
 })
 
-const getAndSetGltf = async () => {
-  const { scene } = await useGLTF(`/models/${getStructure.value.filename}`)
-  gltf.value = scene
+const loadModel = async (e) => {
+  setTimeout(async () => {
+    const filename = getStructure.value.filename
+    const { scene } = await useGLTF(`/models/${filename}`)
+    gltf.value = scene
+  }, 10)
 }
-console.log("etStructure.filename = ", getStructure.value.filename)
-const { nodes: greenhouseNodes } = await useGLTF(`/models/${getStructure.value.filename}`)
+
+onMounted(() => {
+  loadModel()
+})
+
+//const { scene: greenhouse } = await useGLTF(`/models/greenhouse2.gltf`)
+//console.log("greenhouse2 = ", greenhouse)
 
 // Variables for customization
 let maxObjectsPerColumn = 1
@@ -109,19 +117,16 @@ const calcUnitsPosition = (index) => {
   <div>
     <Button label="Check" icon="pi pi-check" />
     <div class="flex flex-wrap gap-4">
-      {{ structureSelected }}
       {{ getStructure }}
       <br />
-      <br />
-      <br />
-      <br />
+
       <div class="flex items-center" v-for="structure in structures">
         <RadioButton
           v-model="structureSelected"
           inputId="structure1"
           :name="structure.name"
           :value="structure.name"
-          @click="getAndSetGltf(structure)"
+          @click="loadModel"
         />
         <label for="structure1" class="ml-2">{{ structure.name }}</label>
       </div>
@@ -152,12 +157,10 @@ const calcUnitsPosition = (index) => {
           :opacity="0.1"
           :position="[-0.6, -0.2, -0.6]"
         />
-        <Suspense>
-          <primitive
-            :object="greenhouseNodes.greenhouse"
-            :size="structureSize"
-          ></primitive>
-        </Suspense>
+        <Suspense> </Suspense>
+
+        <primitive v-if="gltf" :object="gltf"></primitive>
+        <!-- <primitive v-if="greenhouse" :object="greenhouse"></primitive> -->
         <!-- <TresMesh
           :position="[0, -0.19, 0]"
           :rotation="[-1.57, 0, 0]"
