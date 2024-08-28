@@ -23,27 +23,39 @@ const gl = {
 const structures = [
   {
     name: "Indoor",
+    filename: "greenhouse.gltf",
     obj: "indoor.obj",
   },
   {
     name: "Outdoor",
+    filename: "greenhouse.gltf",
     obj: "outdoor.obj",
   },
   {
     name: "Greenhouse",
-    filename: "greenhouse.gtlf",
+    filename: "greenhouse2.gltf",
     obj: "greenhouse.obj",
   },
 ]
 const structureSelected = ref(structures[0].name)
+const gltf = ref(null)
 
-const { scene: greenhouse } = await useGLTF("/models/greenhouse2.gltf")
+const getStructure = computed(() => {
+  return structures.find((structure) => structure.name === structureSelected.value)
+})
+
+const getAndSetGltf = async () => {
+  const { scene } = await useGLTF(`/models/${getStructure.value.filename}`)
+  gltf.value = scene
+}
+console.log("etStructure.filename = ", getStructure.value.filename)
+const { nodes: greenhouseNodes } = await useGLTF(`/models/${getStructure.value.filename}`)
 
 // Variables for customization
 let maxObjectsPerColumn = 1
 let verticalPadding = 0.1 // Example value, adjust as needed
 let horizontalPadding = 0.1 // Example value, adjust as needed
-const numOfUnits = ref(9) // Total number of units
+const numOfUnits = ref(1) // Total number of units
 const unitSize = [1, 0.2, 1]
 const structureSize = computed(() => {
   let columns = Math.ceil(Math.sqrt(numOfUnits.value / maxObjectsPerColumn))
@@ -97,12 +109,19 @@ const calcUnitsPosition = (index) => {
   <div>
     <Button label="Check" icon="pi pi-check" />
     <div class="flex flex-wrap gap-4">
+      {{ structureSelected }}
+      {{ getStructure }}
+      <br />
+      <br />
+      <br />
+      <br />
       <div class="flex items-center" v-for="structure in structures">
         <RadioButton
           v-model="structureSelected"
           inputId="structure1"
           :name="structure.name"
           :value="structure.name"
+          @click="getAndSetGltf(structure)"
         />
         <label for="structure1" class="ml-2">{{ structure.name }}</label>
       </div>
@@ -127,7 +146,6 @@ const calcUnitsPosition = (index) => {
           :size="unitSize"
         />
         <Room
-          :type="structureSelected"
           :key="`unit-house`"
           :size="structureSize"
           color="#ffffff"
@@ -135,7 +153,10 @@ const calcUnitsPosition = (index) => {
           :position="[-0.6, -0.2, -0.6]"
         />
         <Suspense>
-          <primitive :object="greenhouse" />
+          <primitive
+            :object="greenhouseNodes.greenhouse"
+            :size="structureSize"
+          ></primitive>
         </Suspense>
         <!-- <TresMesh
           :position="[0, -0.19, 0]"
