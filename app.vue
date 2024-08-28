@@ -44,13 +44,14 @@ const getStructure = computed(() => {
   return structures.find((structure) => structure.name === structureSelected.value)
 })
 
-const loadModel = async (e) => {
-  setTimeout(async () => {
-    const filename = getStructure.value.filename
-    const { scene } = await useGLTF(`/models/${filename}`)
-    gltf.value = scene
-  }, 10)
+const loadModel = async () => {
+  const filename = getStructure.value.filename
+  const { scene } = await useGLTF(`/models/${filename}`)
+  gltf.value = scene
 }
+watch(structureSelected, () => {
+  loadModel()
+})
 
 onMounted(() => {
   loadModel()
@@ -126,7 +127,6 @@ const calcUnitsPosition = (index) => {
           inputId="structure1"
           :name="structure.name"
           :value="structure.name"
-          @click="loadModel"
         />
         <label for="structure1" class="ml-2">{{ structure.name }}</label>
       </div>
