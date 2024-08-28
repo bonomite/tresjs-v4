@@ -45,8 +45,21 @@ const getStructure = computed(() => {
 })
 
 const loadModel = async () => {
+  const name = getStructure.value.name
   const filename = getStructure.value.filename
-  const { scene } = await useGLTF(`/models/${filename}`)
+  const { scene, materials } = await useGLTF(`/models/${filename}`)
+  if (scene) {
+    const color = name === "Greenhouse" ? 0x00ff00 : 0xffffff
+    scene.traverse((child) => {
+      if (child.isMesh) {
+        child.material.color.setHex(color) // Change color to red
+        //child.material.color.setHex(0xff0000) // Change color to red
+
+        //child.material.metalness = 0.5 // Change metalness
+        //child.material.roughness = 0.3 // Change roughness
+      }
+    })
+  }
   gltf.value = scene
 }
 watch(structureSelected, () => {
