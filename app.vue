@@ -49,14 +49,16 @@ const loadModel = async () => {
   const filename = getStructure.value.filename
   const { scene, materials } = await useGLTF(`/models/${filename}`)
   if (scene) {
-    const color = name === "Greenhouse" ? 0x00ff00 : 0xffffff
+    const color = name === "Greenhouse" ? 0xa1ffa5 : 0xffffff
     scene.traverse((child) => {
       if (child.isMesh) {
         child.material.color.setHex(color) // Change color to red
         //child.material.color.setHex(0xff0000) // Change color to red
 
-        //child.material.metalness = 0.5 // Change metalness
-        //child.material.roughness = 0.3 // Change roughness
+        child.material.metalness = 0 // Change metalness
+        child.material.roughness = 1 // Change roughness
+        child.material.transparent = false
+        child.material.opacity = 1
       }
     })
   }
@@ -185,7 +187,7 @@ const calcUnitsPosition = (index) => {
         </TresMesh> -->
         <TresDirectionalLight
           :position="[-4, 5, 4]"
-          :intensity="1.2"
+          :intensity="2.2"
           cast-shadow
           :shadow-mapSize="2024"
           :shadow-camera-left="-70"
@@ -196,7 +198,7 @@ const calcUnitsPosition = (index) => {
           :shadow-camera-far="1000"
           color="#ffffff"
         />
-        <TresAmbientLight :intensity="0.5" />
+        <TresAmbientLight :intensity="1" />
       </TresCanvas>
     </div>
   </div>
