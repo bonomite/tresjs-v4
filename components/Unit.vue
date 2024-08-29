@@ -19,7 +19,7 @@ var props = defineProps({
   },
   color: {
     type: String,
-    default: "orange",
+    default: "#fff582",
   },
   opacity: {
     type: Number,

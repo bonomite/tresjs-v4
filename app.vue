@@ -47,7 +47,11 @@ const getStructure = computed(() => {
 const loadModel = async () => {
   const name = getStructure.value.name
   const filename = getStructure.value.filename
-  const { scene, materials } = await useGLTF(`/models/${filename}`)
+  const { scene, nodes, materials } = await useGLTF(`/models/${filename}`)
+  const greenhouse = nodes.greenhouse
+  console.log("scene = ", scene)
+  console.log("greenhouse = ", greenhouse)
+
   if (scene) {
     const color = name === "Greenhouse" ? 0xa1ffa5 : 0xffffff
     scene.traverse((child) => {
@@ -62,10 +66,20 @@ const loadModel = async () => {
       }
     })
   }
-  gltf.value = scene
+  gltf.value = greenhouse
 }
 watch(structureSelected, () => {
   loadModel()
+})
+
+watchEffect(() => {
+  if (gltf.value) {
+    gltf.value.scale.set(
+      structureSize.value[0],
+      structureSize.value[0],
+      structureSize.value[2]
+    )
+  }
 })
 
 onMounted(() => {
@@ -134,6 +148,7 @@ const calcUnitsPosition = (index) => {
     <Button label="Check" icon="pi pi-check" />
     <div class="flex flex-wrap gap-4">
       {{ getStructure }}
+      {{ structureSize }}
       <br />
 
       <div class="flex items-center" v-for="structure in structures">
@@ -172,7 +187,6 @@ const calcUnitsPosition = (index) => {
           :opacity="0.1"
           :position="[-0.6, -0.2, -0.6]"
         />
-        <Suspense> </Suspense>
 
         <primitive v-if="gltf" :object="gltf"></primitive>
         <!-- <primitive v-if="greenhouse" :object="greenhouse"></primitive> -->
