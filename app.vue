@@ -22,19 +22,19 @@ const gl = {
 
 const structures = [
   {
-    name: "Indoor",
-    filename: "greenhouse2.gltf",
-    obj: "indoor.obj",
+    label: "Indoor",
+    name: "indoor",
+    filename: "indoor.gltf",
   },
   {
-    name: "Outdoor",
+    label: "Outdoor",
+    name: "outdoor",
     filename: "greenhouse.gltf",
-    obj: "outdoor.obj",
   },
   {
-    name: "Greenhouse",
+    label: "Greenhouse",
+    name: "greenhouse",
     filename: "greenhouse2.gltf",
-    obj: "greenhouse.obj",
   },
 ]
 const structureSelected = ref(structures[0].name)
@@ -48,12 +48,12 @@ const loadModel = async () => {
   const name = getStructure.value.name
   const filename = getStructure.value.filename
   const { scene, nodes, materials } = await useGLTF(`/models/${filename}`)
-  const greenhouse = nodes.greenhouse
+  const structure = nodes[name]
   console.log("scene = ", scene)
-  console.log("greenhouse = ", greenhouse)
+  console.log("structure = ", structure)
 
   if (scene) {
-    const color = name === "Greenhouse" ? 0xa1ffa5 : 0xffffff
+    const color = name === "greenhouse" ? 0xa1ffa5 : 0xffffff
     scene.traverse((child) => {
       if (child.isMesh) {
         child.material.color.setHex(color) // Change color to red
@@ -66,7 +66,7 @@ const loadModel = async () => {
       }
     })
   }
-  gltf.value = greenhouse
+  gltf.value = structure
 }
 watch(structureSelected, () => {
   loadModel()
@@ -155,7 +155,7 @@ const calcUnitsPosition = (index) => {
         <RadioButton
           v-model="structureSelected"
           inputId="structure1"
-          :name="structure.name"
+          :name="structure.label"
           :value="structure.name"
         />
         <label for="structure1" class="ml-2">{{ structure.name }}</label>
@@ -180,13 +180,13 @@ const calcUnitsPosition = (index) => {
           LineBasicMaterial
           :size="unitSize"
         />
-        <Room
+        <!-- <Room
           :key="`unit-house`"
           :size="structureSize"
           color="#ffffff"
           :opacity="0.1"
           :position="[-0.6, -0.2, -0.6]"
-        />
+        /> -->
 
         <primitive v-if="gltf" :object="gltf"></primitive>
         <!-- <primitive v-if="greenhouse" :object="greenhouse"></primitive> -->
