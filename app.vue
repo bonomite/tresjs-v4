@@ -122,7 +122,7 @@ const calcUnitsPosition = (index) => {
 
   // Calculate center of the grid
   let centerX = gridWidth / 2
-  let centerY = gridHeight / 2
+  let centerY = 0
   let centerZ = gridDepth / 2
 
   // Calculate position based on index, relative to the center
