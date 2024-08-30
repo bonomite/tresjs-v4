@@ -172,7 +172,11 @@ const calcUnitsPosition = (index) => {
     <div>
       <TresCanvas window-size v-bind="gl" style="top: 280px">
         <TresPerspectiveCamera
-          :position="[structureSize[0], structureSize[0], structureSize[0]]"
+          :position="[
+            structureSize[0] / 0.4,
+            structureSize[0] / 0.4,
+            structureSize[0] / 0.4,
+          ]"
           :look-at="[0, 0, 0]"
           :fov="45"
         />
