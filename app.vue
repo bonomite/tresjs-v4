@@ -93,7 +93,7 @@ onMounted(() => {
 let maxObjectsPerColumn = 1
 let verticalPadding = 0.1 // Example value, adjust as needed
 let horizontalPadding = 0.1 // Example value, adjust as needed
-const numOfUnits = ref(1) // Total number of units
+const numOfUnits = ref(9) // Total number of units
 const unitSize = [1, 0.2, 1]
 const structureSize = computed(() => {
   let columns = Math.ceil(Math.sqrt(numOfUnits.value / maxObjectsPerColumn))
@@ -171,7 +171,11 @@ const calcUnitsPosition = (index) => {
     />
     <div>
       <TresCanvas window-size v-bind="gl" style="top: 280px">
-        <TresPerspectiveCamera :position="[15, 15, 15]" :look-at="[0, 0, 0]" :fov="45" />
+        <TresPerspectiveCamera
+          :position="[structureSize[0], structureSize[0], structureSize[0]]"
+          :look-at="[0, 0, 0]"
+          :fov="45"
+        />
         <OrbitControls />
         <Unit
           v-for="(unit, index) in numOfUnits"
