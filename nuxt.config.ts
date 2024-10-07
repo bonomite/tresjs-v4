@@ -1,4 +1,4 @@
-import Aura from '@primevue/themes/aura';
+import Lara from '@primevue/themes/lara';
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
@@ -13,9 +13,20 @@ export default defineNuxtConfig({
     //   include: ['Button', 'RadioButton']
     // }
     options: {
-      unstyled: true
-    }
+      //unstyled: true,
+      theme: {
+        preset: Lara,
+        options: {
+          darkModeSelector: 'light',
+        }
+      }
+    },
+
   },
+
+  css: [
+    'primeflex/primeflex.css',
+  ],
   ssr: false,
   tres: {
     devtools: true,

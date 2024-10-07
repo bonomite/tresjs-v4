@@ -93,6 +93,7 @@ onMounted(() => {
 let maxObjectsPerColumn = 1
 let verticalPadding = 0.1 // Example value, adjust as needed
 let horizontalPadding = 0.1 // Example value, adjust as needed
+const numOfProducts = ref(1)
 const numOfUnits = ref(9) // Total number of units
 const unitSize = [1, 0.2, 1]
 const structureSize = computed(() => {
@@ -141,11 +142,19 @@ const calcUnitsPosition = (index) => {
 
   return [x, y, z]
 }
+
+const getPercentageColor = (index) => {
+  let blockSize = Math.ceil(numOfUnits.value / numOfProducts.value)
+  let blockIndex = Math.floor(index / blockSize)
+  let percentage = (blockIndex / numOfProducts.value) * 100
+  let color = new THREE.Color()
+  color.setHSL(percentage / 100, 1, 0.5)
+  return color
+}
 </script>
 
 <template>
   <div>
-    <Button label="Check" icon="pi pi-check" />
     <div class="flex flex-wrap gap-4">
       {{ getStructure }}
       {{ structureSize }}
@@ -161,14 +170,28 @@ const calcUnitsPosition = (index) => {
         <label for="structure1" class="ml-2">{{ structure.name }}</label>
       </div>
     </div>
-    <h2>{{ numOfUnits }} Units</h2>
-    <input
-      type="number"
-      min="1"
-      max="1000"
-      v-model="numOfUnits"
-      style="width: 100%; z-index: 23023"
-    />
+    <div class="grid">
+      <div class="col-6">
+        <h2>{{ numOfUnits }} Units</h2>
+        <input
+          type="number"
+          min="1"
+          max="1000"
+          v-model="numOfUnits"
+          style="width: 100%; z-index: 23023"
+        />
+      </div>
+      <div class="col-6">
+        <h2>{{ numOfProducts }} Products</h2>
+        <input
+          type="number"
+          min="1"
+          max="100"
+          v-model="numOfProducts"
+          style="width: 100%; z-index: 23024"
+        />
+      </div>
+    </div>
     <div>
       <TresCanvas window-size v-bind="gl" style="top: 280px">
         <TresPerspectiveCamera
@@ -187,6 +210,7 @@ const calcUnitsPosition = (index) => {
           :position="calcUnitsPosition(index)"
           LineBasicMaterial
           :size="unitSize"
+          :color="getPercentageColor(index)"
         />
         <!-- <Room
           :key="`unit-house`"
